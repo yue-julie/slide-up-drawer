@@ -383,6 +383,28 @@
       if (e.key === 'Escape') {
         e.preventDefault();
         this.manualClose();
+      } else if (e.key === 'Tab') {
+        this.trapFocus(e);
+      }
+    }
+
+    trapFocus(e) {
+      var focusable = this.drawer.querySelectorAll(
+        'a[href]:not([tabindex="-1"]), button:not([disabled]):not([tabindex="-1"]), textarea:not([disabled]):not([tabindex="-1"]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]):not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     }
 
